@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+</head>
+
+<body>
+    <table class="easyui-datagrid" id="user_tb" style="width:100%;height: 100%;" data-options="fitColumns:true,rownumbers:true,cls:'user_tb'">
+    </table>
+    <!-- table头部条 -->
+    <div id="user_bar">
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-user_add',plain:true" id='user_add_btn'>新增用户</button>
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-user_delete',plain:true" id='user_del_btn'>移除用户</button>
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-user_edit',plain:true" id='user_update_btn'>修改用户</button>
+        <input id="user_search" type="search" class="easyui-searchbox" style="width:200px" />
+    </div>
+    <!-- 搜索下拉框 -->
+    <div id="user_sel">
+        <div data-options="name:'name'">用户名</div>
+        <div data-options="name:'tel'">手机号</div>
+        <div data-options="name:'email'">邮箱</div>
+    </div>
+    <!-- 增加的窗口 -->
+    <form method="post" id="user_add" closed="true" class="easyui-dialog" title="新增用户" style="width:400px;height: 250px" data-options="iconCls:'icon-user_add',modal:true">
+    </form>
+    <!-- 修改的窗口 -->
+    <form method="post" id="user_update" closed="true" class="easyui-dialog" title="修改用户" style="width:400px;height:250px" data-options="iconCls:'icon-user',modal:true">
+    </form>
+</body>
+
+</html>

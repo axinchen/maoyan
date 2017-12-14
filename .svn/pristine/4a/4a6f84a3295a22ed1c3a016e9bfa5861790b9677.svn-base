@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>猫眼后台管理系统</title>
+    <link rel="stylesheet" type="text/css" href="themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="themes/icon.css">
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    #i_user img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .datagrid-td-rownumber {
+        height: 30px;
+    }
+    .datagrid-row-selected{
+        /*background-color: #eee;*/
+        /*color: #fff;*/
+    }
+    h1 {
+        text-shadow: 5px 5px 10px #ffffff;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    .welcome span {
+        margin: 4px;
+        font-size: 40px;
+        color: #b10e81;
+        opacity: 0;
+        transform: translate(-300px, 0) scale(0);
+        animation: sideSlide 2s forwards;
+    }
+
+    .welcome {
+        text-align: center;
+        font-size: 30px;
+        text-shadow: 5px 5px 10px #ffffff;
+        /* background-color: #000; */
+        position: relative;
+        overflow: hidden;
+    }
+
+    .welcome .title {
+        position: absolute;
+        top: 100px;
+        left: 200px;
+        z-index: 2;
+    }
+
+    .welcome span {
+        display: inline-block;
+    }
+
+    .welcome span:nth-of-type(2) {
+        animation-delay: .05s;
+    }
+
+    .welcome span:nth-of-type(3) {
+        animation-delay: .1s;
+    }
+
+    .welcome span:nth-of-type(4) {
+        animation-delay: .15s;
+    }
+
+    .welcome span:nth-of-type(5) {
+        animation-delay: .2s;
+    }
+
+    .welcome span:nth-of-type(6) {
+        animation-delay: .25s;
+    }
+
+    .welcome span:nth-of-type(7) {
+        animation-delay: .3s;
+    }
+
+    .welcome span:nth-of-type(8) {
+        animation-delay: .35s;
+    }
+
+    .welcome span:nth-of-type(9) {
+        animation-delay: .4s;
+    }
+
+    .welcome span:nth-of-type(10) {
+        animation-delay: .45s;
+    }
+
+    .welcome span:nth-of-type(11) {
+        animation-delay: .5s;
+    }
+
+    .welcome span:nth-of-type(12) {
+        animation-delay: .55s;
+    }
+
+    @keyframes sideSlide {
+        60% {
+            transform: translate(20px, 0) scale(1);
+            color: #b21f1f;
+            text-shadow: 5px 5px 10px #b21f1f;
+        }
+        80% {
+            transform: translate(20px, 0) scale(1);
+            color: #1a2a6c;
+            text-shadow: 5px 5px 10px #1a2a6c;
+        }
+        99% {
+            transform: translate(0) scale(1.2);
+            color: #b21f1f;
+            text-shadow: 5px 5px 10px #b21f1f;
+        }
+        100% {
+            transform: translate(0) scale(1);
+            opacity: 1;
+            color: #c8bfb9;
+            text-shadow: 5px 5px 10px #c8bfb9;
+        }
+    }
+    </style>
+    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/ajaxfileupload.js"></script>
+    <script type="module" src="manage/main.js"></script>
+</head>
+
+<body class="easyui-layout">
+    <div data-options="region:'north',split:true" style="height: 100px;background: linear-gradient(to right,#1a2a6c, #b21f1f,#1a2a6c);color: #fff;padding:0 30px;display: flex;justify-content: space-between;align-items: center;">
+        <h1>猫眼后台管理系统</h1>
+        <div id="i_user">
+            <span id="i_managerID" style="font-size: 18px;"></span>
+            <a href="javascript:void(0)" class="easyui-menubutton" data-options="menu:'#i_menu'">
+                <div style="border-radius: 50%;height: 30px;overflow: hidden;">
+                    <img src="images/avatar.png">
+                </div>
+            </a>
+            <div id="i_menu" style="width:150px;">
+                <!-- <div id="i_alter" data-options="iconCls:'icon-y_pencil'">账号修改</div>
+                    <div class="menu-sep"></div>  -->
+                <div id="exit" data-options="iconCls:'icon-door_out'">退出登录</div>
+            </div>
+        </div>
+    </div>
+    <div data-options="region:'west',title:'功能列表',split:true" style="width: 200px;text-align: left;">
+        <ul id="i_list" class="easyui-tree" style="height: 100%;font-size: 16px;"></ul>
+    </div>
+    <div id="i_tab" class="easyui-tabs" data-options="region:'center'" style="width: 100%;">
+        <div title="欢迎使用" data-options="closable:true" class='welcome'>
+            <div id="canvas" class="gradient"></div>
+            <div></div>
+            <div class='title'><span>欢</span><span>迎</span><span>使</span><span>用</span>
+                <span>猫</span><span>眼</span><span>后</span><span>台</span><span>管</span><span>理</span><span>系</span><span>统</span></div>
+        </div>
+        <!-- <div id="i_alterDialog" class="easyui-dialog" closed="true" title="账号修改"  style="width:400px;height:300px;" data-options="
+    iconCls:'icon-save',resizable:true"></div> -->
+    </div>
+    <div data-options="region:'south',title:'开发人员：钟娟 王馨 吴隐尘 刘建 陈树林 王建平'"> 
+    </div>
+    <script src="js/three.min.js"></script>
+    <script src="js/projector.js"></script>
+    <script src="js/canvas-renderer.js"></script>
+    <script src="js/3d-lines-animation.js"></script>
+    <script src="js/color.js"></script>
+</body>
+
+</html>

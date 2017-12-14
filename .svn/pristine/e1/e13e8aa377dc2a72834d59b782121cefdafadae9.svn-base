@@ -1,0 +1,19 @@
+<div style="width:300px;margin: auto;text-align: center;">
+    <input type="hidden" id="user_updateId" name="_id">
+    <div style="margin-top: 15px;">
+        <label style="width: 80px;display: inline-block;">用户名</label>
+        <input name='name' id='user_updateName' type="text" class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'"/>
+    </div>
+    <div style="margin-top: 15px;">
+        <label style="width: 80px;display: inline-block;">密码</label>
+        <input name='pwd' id='user_updatePwd' type="text" class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'" />
+    </div>
+    <div style="margin-top: 15px;">
+        <label style="width: 80px;display: inline-block;">手机号</label>
+        <input name='tel' id='user_updateTel' type="text" class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'" />
+    </div>
+    <div style="margin: 15px 0;">
+        <label style="width: 80px;display: inline-block;">邮箱</label>
+        <input name='email' id='user_updateEmail' type="text" class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'" />
+    </div>
+</div>

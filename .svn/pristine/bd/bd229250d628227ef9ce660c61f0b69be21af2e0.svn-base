@@ -1,0 +1,18 @@
+<div style="width:300px;margin: auto;text-align: center;">
+    <div style="margin-top: 15px;">
+        <label style="width: 80px;display: inline-block;">院线名</label>
+        <input name='name' type="text" class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'" />
+    </div>
+    <div style="margin-top: 15px;">
+        <label style="width: 80px;display: inline-block;">地址</label>
+        <input name='address' type="text" class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'" />
+    </div>
+    <div style="margin-top: 15px;">
+        <label style="width: 80px;display: inline-block;">电话</label>
+        <input name='tel' type="text" class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'" />
+    </div>
+    <div style="margin: 15px 0;">
+        <label style="width: 80px;display: inline-block;">网址</label>
+        <input name='website' type="text" class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'" />
+    </div>
+</div>

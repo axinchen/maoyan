@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>资讯管理</title>
+</head>
+
+<body>
+    <table class="easyui-datagrid" id="information_tb" style="width:100%;height: 100%;" data-options="fitColumns:true,rownumbers:true,cls:'information_tb'">
+    </table>
+    <!-- table头部条 -->
+    <div id="information_bar">
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-information_add',plain:true" id='information_add_btn'>新增资讯</button>
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-information_delete',plain:true" id='information_del_btn'>移除资讯</button>
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-information_edit',plain:true" id='information_update_btn'>修改资讯</button>
+        <input id="information_search" type="search" class="easyui-searchbox" style="width:200px" />
+    </div>
+    <!-- 搜索下拉框 -->
+    <div id="information_sel">
+        <div data-options="name:'title'">资讯标题</div>
+        <div data-options="name:'time'">发稿时间</div>
+    </div>
+    <!-- 增加的窗口 -->
+    <form method="post" id="information_add" closed="true" class="easyui-dialog" title="新增资讯" style="width:400px;height: 300px" data-options="iconCls:'icon-information_add',modal:true">
+    </form>
+    <!-- 修改的窗口 -->
+    <form method="post" id="information_update" closed="true" class="easyui-dialog" title="修改资讯" style="width:500px;height:400px" data-options="iconCls:'icon-information',modal:true">
+    </form>
+</body>
+
+</html>

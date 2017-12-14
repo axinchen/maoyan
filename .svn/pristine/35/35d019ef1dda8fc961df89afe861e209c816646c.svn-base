@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>院线管理</title>
+</head>
+
+<body>
+    <table class="easyui-datagrid" id="cin_tb" style="width:100%;" data-options="fitColumns:true,rownumbers:true,cls:'cin_tb'">
+    </table>
+    <!-- table头部条 -->
+    <div id="cin_bar">
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-television_add',plain:true" id='cin_add_btn'>新增院线</button>
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-television_delete',plain:true" id='cin_del_btn'>移除院线</button>
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-television',plain:true" id='cin_update_btn'>院线修改</button>
+        <input id="cin_search" type="search" class="easyui-searchbox" style="width:200px" />
+    </div>
+    <!-- 搜索下拉框 -->
+    <div id="cin_sel">
+        <div data-options="name:'name'">院线名</div>
+        <div data-options="name:'address'">地址</div>
+    </div>
+    <!-- 增加的窗口 -->
+    <form method="post" id="cin_add" closed="true" class="easyui-dialog" title="新增院线" style="width:400px;height: 250px" data-options="iconCls:'icon-television_add',modal:true">
+    </form>
+    <!-- 修改的窗口 -->
+    <form method="post" id="cin_update" closed="true" class="easyui-dialog" title="修改院线" style="width:400px;height:250px" data-options="iconCls:'icon-television',modal:true">
+    </form>
+    <!-- 新增放映厅的窗口 -->
+    <form method="post" id="cinHall_add" closed="true" class="easyui-dialog" title="新增放映厅" style="width:400px;height: 520px" data-options="iconCls:'icon-room',modal:true">
+    </form>
+    <!-- 修改放映厅的窗口 -->
+    <form method="post" id="cinHall_update" closed="true" class="easyui-dialog" title="修改放映厅" style="width:400px;height: 520px" data-options="iconCls:'icon-room',modal:true">
+    </form>
+    <!-- 放映厅表格的窗口 -->
+    <div class='easyui-dialog' closed="true" id='hall_dia' title="查看放映厅" style="width:400px;height: 250px" data-options="iconCls:'icon-room',modal:true">
+        <table class="easyui-datagrid " id="hall_tb" data-options="fitColumns:true,rownumbers:true,fit:true">
+        </table>
+    </div>
+</body>
+
+</html>

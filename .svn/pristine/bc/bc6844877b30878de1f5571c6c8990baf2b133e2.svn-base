@@ -1,0 +1,370 @@
+export default function() {
+    let changeId;
+    // 表格样式
+    $("#tb").datagrid({
+        toolbar: $("#bar"),
+        pagination: true,
+        method: 'get',
+        url: '/information/info',
+        pageNumber: 1,
+        pageSize: 5,
+        pageList: [5, 10, 20],
+        columns: [
+            [{ field: 'mumber', title: '', checkbox: true },
+                { field: 'headline', title: '标题', width: 100, align: 'center' },
+                { field: 'writing_time', title: '发稿时间', width: 100, align: 'center' },
+                { field: 'illustration', title: '配图', width: 100, align: 'center' },
+                { field: 'Segment', title: '文段', width: 100, align: 'center' },
+                { field: 'comment', title: '评论', width: 100, align: 'center' },
+
+
+            ]
+        ],
+        // 表格加载完成后执行
+        onLoadSuccess: function() {
+            $(".updata-btn").linkbutton();
+            $(".del-btn").linkbutton();
+            // 点击删除按钮
+            $(".del-btn").click(function() {
+                let _id = this.dataset.id;
+                $.messager.confirm('确认', '您确认要删除本条记录吗？', function(r) {
+                    if (r) {
+                        $.ajax({
+                            type: 'post',
+                            url: '/students/remove',
+                            data: {
+                                _id
+                            },
+                            success: function() {
+                                show();
+                            }
+                        });
+                    }
+                });
+            });
+            // 点击修改按钮
+            //$(".updata-btn").click(function() {
+            //    $("#change").window("open");
+            //    let  changeId = this.dataset.id;
+            //    $.ajax({
+            //        type: 'get',
+            //        url: '/information/infoByid',
+            //        data: {
+            //            _id: changeId
+            //        },
+            //        success: function(data) {
+            //            let name = data.name;
+            //            let age = data.age;
+            //            let gender = data.gender;
+            //            $("#changeName").textbox({
+            //                value: name
+            //            });
+            //            $("#changeAge").textbox({
+            //                value: age
+            //            });
+            //            $("#changeGender").textbox({
+            //                value: gender
+            //            });
+            //        }
+            //    });
+            //});
+        }
+    });
+    // 显示数据
+    let show = function(value, name) {
+        $("#tb").datagrid('reload', {
+            value,
+            name
+        });
+    };
+    // 点击bar的增加按钮，弹出增加框
+    $("#bar1").click(function() {
+        $("#add").window("open");
+    });
+    // 增加弹框的操作
+    $("#add").dialog({
+        buttons: [{
+            text: '保存',
+            handler: function() {
+                let headline = $("#addName").val();
+                let writing_time = $("#addAge").val();
+                let headImg = $(".headImg").attr("src");
+                let comment = $("#connent_id").val();
+                let discuss = $("#discuss").val();
+
+
+                if (headline && writing_time && comment) {
+                    $.ajax({
+                        type: 'post',
+                        url: '/information/add',
+                        data: {
+                            headline,
+                            writing_time,
+                            illustration: headImg,
+                            comment,
+                            Segment: discuss
+                        },
+                        success: function() {
+                            $("#add").window("close");
+                        }
+                    });
+                } else {
+                    $.messager.alert('警告', '请先完成必填项再保存');
+                }
+                show();
+            }
+        }, {
+            text: '关闭',
+            handler: function() {
+                $("#add").window("close");
+
+            }
+        }]
+    });
+    //// 点击bar的修改按钮，弹出增加框
+    $("#bar3").click(function() {
+        // 判断选中的条数
+        let idAry = [];
+        let checkedObj = $('#tb').datagrid('getChecked');
+        $(checkedObj).each(function() {
+            idAry.push(this._id);
+        });
+        if (!idAry.length) {
+            $.messager.alert('警告', '您还未选中任何要修改的院线');
+            return;
+        } else if (idAry.length > 1) {
+            $.messager.alert('警告', '每次只能修改一个院线，请重新选择');
+            return;
+        }
+        $("#_change").window("open");
+        // 弹框内的显示
+        $.ajax({
+            type: 'get',
+            url: '/information/infoByid',
+            data: {
+                _id: idAry[0]
+            },
+            success: function(data) {
+                console.log("1111111111",data);
+                $("#alter_addName").textbox("setValue", data.headline);
+                $("#alter_addAge").textbox("setValue", data.writing_time);
+                //$("#alter_discuss").textbox("setValue", data.illustration);
+
+                $("#alter_discuss").textbox("setValue", data.Segment);
+                $("#alter_comment").textbox("setValue", data.comment);
+                $("#_changeID").val(data._id);
+            }
+        })
+    });
+    //修改的操作
+    $("#_change").dialog({
+        //href: "/manage/easyStudent/add.html",
+        buttons: [{
+            text: "保存",
+            handler: function() {
+                let alter_addName = $("#alter_addName").val();
+                let alter_addAge = $("#alter_addAge").val();
+                let alter_discuss = $("#alter_discuss").val();
+                let alter_Venturi = $("#alter_Venturi").val();
+                let _id = $("#_changeID").val();
+                $.ajax({
+                    url: "/information/update",
+                    type: "post",
+                    data: {
+                        _id,
+                        alter_Venturi,
+                        alter_discuss,
+                        alter_addAge,
+                        alter_addName,
+                    },
+                    success: function() {
+                        show();
+                        $("#_change").window("close");
+                    }
+                })
+            }
+        }, {
+            text: "关闭",
+            handler: function() {
+                $("#_change").window("close");
+            }
+        }]
+    });
+    $("#_change").dialog({
+        buttons: [{
+            text: '保存',
+            handler: function() {
+                let headline = $("#addName").val();
+                let writing_time = $("#addAge").val();
+                let headImg = $(".headImg").attr("src");
+                let comment = $("#connent_id").val();
+                let discuss = $("#discuss").val();
+                if (headline && writing_time && comment) {
+                    $.ajax({
+                        type: 'post',
+                        url: '/information/add',
+                        data: {
+                            headline,
+                            writing_time,
+                            illustration: headImg,
+                            comment,
+                            Segment: discuss
+                        },
+                        success: function() {
+                            $("#add").window("close");
+                        }
+                    });
+                } else {
+                    $.messager.alert('警告', '请先完成必填项再保存');
+                }
+                show();
+            }
+        }, {
+            text: '关闭',
+            handler: function() {
+                $("#add").window("close");
+
+            }
+        }]
+    });
+
+
+    // 修改弹框的操作
+    // 点击按钮
+    //$("#change").dialog({
+    //    buttons: [{
+    //        text: '确认修改',
+    //        handler: function() {
+    //            let name = $("#changeName").val();
+    //            let age = $("#changeAge").val();
+    //            let gender = $("#Venturi").val();
+    //            let Segment = $("#changeGender").val();
+    //            let comment = $("#changeGender").val();
+    //            let _id = changeId;
+    //            $.ajax({
+    //                type: 'post',
+    //                url: '/students/update',
+    //                data:{
+    //                    _id,name,age,gender
+    //                },
+    //                success: function() {
+    //                    show();
+    //                    $("#change").window("close");
+    //                }
+    //            });
+    //        }
+    //    }, {
+    //        text: '取消',
+    //        handler: function() {
+    //            $("#change").window("close");
+    //        }
+    //    }]
+    //});
+    // 搜索
+    $("#search").searchbox({
+        searcher: function(value, name) {
+            let obj = {};
+            if (name == "name") {
+                value = { $regex: value };
+            }
+            show(value, name);
+        }
+    });
+
+    //图片
+    let n;
+
+
+    //增加
+
+    $("#picture").on("click", function() {
+        let str = ` <div style="width:300px;height:200px;border:1px solid #cccccc;margin: auto;overflow: hidden;">
+                     <!--img-->
+                     <div data-options="region:'east',border:false" style="width:100px;margin: auto">
+                        <div style="border:1px solid blue;width:90px;height:120px;">
+                            <img class="headImg" style="width:100%;height:100%;">
+                        </div>
+                        <input data-type="upioadimg" name="file"  id=${n} class="easyui-filebox " style="width:90px">
+                    </div>
+                    <!-- -->
+                    <label>文段：
+                        <input type="text" id="discuss"/>
+                    </label>
+                </div>`
+        
+        $("#picture").before(str);
+        $("input[data-type=upioadimg]").filebox({
+            buttonText: "选择图片",
+            buttonAlign: "left"
+        })
+        $("input[data-type=upioadimg]").linkbutton({})
+        // 上传图片显示
+        $("input[data-type=upioadimg]").filebox({
+            onChange: function() {
+                let $obj = $(this);
+                let s_id=$obj[0].id;
+                if (!$obj.filebox('getValue')) {
+                    return;
+                }
+                $.ajaxFileUpload({
+                    url: "/upload",
+                    fileElementId: $obj.parents().find("input[type=file]").eq(s_id).attr("id"),
+                    dataType: "string",
+                    success: function(data) {
+                        $(".headImg").attr("src", '/' + data);
+                        n++;
+                    }
+                });
+                $obj.filebox('clear');
+            }
+        });
+    });
+
+    //点击新增文档
+    $("#Venturi").on("click", function() {
+        let str1 = `    <div id="comment" class="comment" style="overflow: hidden;margin-bottom: 15px;margin-top: 15px">
+                    <input type="text" id="connent_id" style="height: 50px;width:200px;border: 1px solid #CCCCCC;margin:auto;"/>
+                </div>`
+        $("#Venturi").before(str1);
+    })
+
+
+    //$("#Venturi").before(str)
+
+    //删除
+    $("#bar2").on("click", function() {
+        let idAry = [];
+        let checkedObj = $('#tb').datagrid('getChecked');
+        $(checkedObj).each(function() {
+            idAry.push(this._id);
+        });
+        if (!idAry.length) {
+            $.messager.alert('警告', '您还未选中任何要删除的院线');
+            return;
+        }
+        $.messager.confirm('确认', `您确认要删除选中的${idAry.length}个院线吗?`, function(r) {
+            if (r) {
+                for (let item of idAry) {
+                    $.ajax({
+                        type: 'post',
+                        url: '/information/remove',
+                        data: {
+                            _id: item
+                        },
+                        success: function() {
+                            show();
+                        }
+                    });
+                }
+            }
+        });
+    })
+
+
+    //搜索
+    $("#search").searchbox({
+        searcher: function(value, name) {
+            show(value, name);
+        }
+    });
+}

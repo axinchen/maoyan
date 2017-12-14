@@ -1,0 +1,202 @@
+import cm_showSeat from "./cm_showSeat.js";
+export default function(movieID,cinemaID){
+	let show=function(type,value){
+        $('#cm_showHallTb').datagrid("reload");
+    }
+	$('#cm_showHallDialog').dialog({
+		href: '/manage/cinemaMatching/cm_showHall.html',
+		buttons:[{
+    		text:'关闭',
+    		handler:function(){
+    			$("#cm_showHallDialog").window("close");
+    		}
+    	}],
+    	onLoad:function(){
+    		var editIndex = undefined;
+    		$("#cm_showHallTb").datagrid({
+    			fit:true,
+				fitColumns:true,
+				singleSelect:true,
+				pagination: true,     //开启分页  
+			    pageSize: 5,         //分页大小  
+			    pageNumber:1,         //第几页显示（默认第一页，可以省略）  
+			    pageList: [5, 10, 15], //设置每页记录条数的列表   
+			    url: `/cinemaMatching/showHall?movieID=${movieID}&cinemaID=${cinemaID}`,  //获取数据地址 
+			    method:"get",
+				columns:[
+					[
+						{field:'cm_checkbox',checkbox:true},
+						{field:'hallName',width:"24%",align:'center',title:'放映厅'},
+						{field:'startTime',width:"24%",align:'center',title:'放映时间'},
+						{field:'price',width:"24%",editor:{type:'numberbox',options:{precision:2}},align:'center',title:'价格'},
+						{field:'option',width:"24%",align:'center',title:'查看选座',
+							formatter:function(value,row,index){
+								let str='';
+								str+=`<a data-id=${row._id} class="easyui-linkbutton cm_showSeat-btn" data-options="iconCls:'icon-television'">查看选座</a>`;
+								return str;
+							}
+						}
+					]
+				],
+				onClickCell: function(index,field,value){
+					if (endEditing()) {   
+			         //    $(this).datagrid('beginEdit', index);  
+			         //    var ed = $(this).datagrid('getEditor', {index:index,field:field});  
+			         //    $(ed.target).focus();  
+			        	// editIndex = index;  
+			        	// $('#cm_showHallTb').datagrid('onClickRow')
+			    	}
+				},
+				onAfterEdit:function(index, row, changes){
+					var updated = $('#cm_showHallTb').datagrid('getChanges', 'updated');
+			    	if (updated.length < 1) {  
+			    	    editIndex = undefined;  
+			    	    $('#cm_showHallTb').datagrid('unselectAll');  
+			    	    return;  
+			    	} else {  
+			    	    // 传值  
+			    	    submitForm(index, row, changes);  
+			    	}
+				},
+				onLoadSuccess:function(){
+                    $('.cm_showSeat-btn').linkbutton();
+                    $('.cm_showSeat-btn').on("click",function(){
+                    	let _id=this.dataset.id;
+                    	cm_showSeat(_id);
+                    	$('#cm_showSeatDialog').window('open');
+                    });
+                }
+    		});
+    		$("#cm_delOccupy").on("click",function(){
+    			let checked=$('#cm_showHallTb').datagrid('getChecked');
+    			let ids=[];
+    			for(let obj of checked){
+    				ids.push(obj._id);
+    			}
+    			$.ajax({
+    				type:"post",
+    				url:"/cinemaMatching/delHall",
+    				data:{
+    					ids:JSON.stringify(ids)
+    				},
+    				success:function(data){
+    					show();
+    				}
+    			});
+    		})
+			function endEditing() {//该方法用于关闭上一个焦点的editing状态  
+			    if (editIndex == undefined) {  
+			        return true  
+			    }  
+			    if ($('#cm_showHallTb').datagrid('validateRow', editIndex)) {  
+			        $('#cm_showHallTb').datagrid('endEdit', editIndex);  
+			        editIndex = undefined;  
+			        return true;  
+			    } else {  
+			        return false;  
+			    }  
+			}
+			//提交数据  
+			function submitForm(index, row, changes) {
+			    var price=row.price;//成绩id  
+			    if(price==""){  
+			        $.messager.alert('提醒', '数据不能为空！');  
+			        $("#cm_showHallTb").datagrid('reload');  
+			        return;  
+			    }
+			    $.ajax({  
+			        type : "post",  
+			        async : false,  
+			        url : "/cinemaMatching/updateHall",  
+			        data : {  
+			            row:JSON.stringify(row)
+			        },  
+			        success : function(data) {  
+			            if(data=="ok"){  
+			                $("#cm_showHallTb").datagrid('reload');  
+			            }  
+			        }  
+			    }); 
+			}  
+    	}
+	});
+
+
+// var editIndex = undefined;  
+// function endEditing() {//该方法用于关闭上一个焦点的editing状态  
+//     if (editIndex == undefined) {  
+//         return true  
+//     }  
+//     if ($('#cm_showHallTb').datagrid('validateRow', editIndex)) {  
+//         $('#cm_showHallTb').datagrid('endEdit', editIndex);  
+//         editIndex = undefined;  
+//         return true;  
+//     } else {  
+//         return false;  
+//     }  
+// }  
+// //点击单元格事件：  
+// function onClickCell(index,field,value) {  
+//     if (endEditing()) {  
+//         if(field=="finalResult"){  
+//             $(this).datagrid('beginEdit', index);  
+//             var ed = $(this).datagrid('getEditor', {index:index,field:field});  
+//             $(ed.target).focus();  
+//         }         
+//         editIndex = index;  
+//     }  
+//     $('#cm_showHallTb').datagrid('onClickRow')  
+// }  
+// //单元格失去焦点执行的方法  
+// function onAfterEdit(index, row, changes) {  
+//     var updated = $('#cm_showHallTb').datagrid('getChanges', 'updated');  
+//     if (updated.length < 1) {  
+//         editRow = undefined;  
+//         $('#cm_showHallTb').datagrid('unselectAll');  
+//         return;  
+//     } else {  
+//         // 传值  
+//         submitForm(index, row, changes);  
+//     }  
+  
+      
+// }  
+  
+// //提交数据  
+// function submitForm(index, row, changes) {  
+// //  alert( row.resultId+"--"+changes.finalResult)daliyResultRate;  
+//     var resultId=row.resultId;//成绩id  
+//     if(resultId==""){  
+//         $.messager.alert('提醒', '没有录入该学生平时成绩！');  
+//         $("#cm_showHallTb").datagrid('reload');  
+//         return;  
+//     }  
+//     var daliyResultRate=row.daliyResultRate;//平时成绩比例  
+//     var daliyResult=row.daliyResult;//平时成绩  
+//     var finalRate=row.finalRate;//期末比例  
+//     var finalRusult=changes.finalResult;//期末成绩  
+//     var r =/^-?[1-9]/;//判断输入的是正整数  
+//     if(!r.test(finalRusult)){  
+//         $.messager.alert('提醒', '请输入正整数！');  
+//         return;  
+//     }  
+    // var totalRusult=Math.round(daliyResultRate*daliyResult+finalRate*finalRusult);//总成绩  
+    // $.ajax({  
+    //         type : "get",  
+    //         async : false,  
+    //         url : `${pageContext.request.contextPath}/updateResult`,  
+    //         data : {  
+    //             "resultId" : resultId,  
+    //             "finalResult" : finalRusult,  
+    //             "totalResult":totalRusult  
+    //         },  
+    //         success : function(data) {  
+    //             if(data==true){  
+    //                 //alert("保存成功");  
+    //                 $("#cm_showHallTb").datagrid('reload');  
+    //             }  
+    //         }  
+    //     })  
+// }  
+
+}

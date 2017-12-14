@@ -1,0 +1,8 @@
+<div class="easyui-layout" style="width: 350px;height: 180px; margin: auto;">
+	<div style="margin: 20px 0;">
+		<input id="cm_time" class="easyui-textbox" data-options="required:true,missingMessage:'内容不能为空',label:'放映时间：',labelWidth:80,labelAlign:'right'" style="width:300px;height: 30px">  
+	</div>   
+	<div style="margin: 20px 0;">
+		<input id="cm_price" class="easyui-textbox" data-options="required:true,missingMessage:'内容不能为空',label:'票价：',labelWidth:80,labelAlign:'right'" style="width:300px;height: 30px"> 
+	</div>
+</div>

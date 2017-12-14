@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>电影院线匹配管理</title>
+</head>
+<body>
+	<!-- 主页面数据 -->
+	<table id="cinemaMatching" class="easyui-datagrid" toolbar="#cm_tb" rownumbers="true" style="height: 100%;width: 100%;"> 
+			<div id="cm_tb">
+				<a id="cm_addM" class="easyui-linkbutton" iconCls="icon-film_add" plain="true">新增电影</a>
+				<a id="cm_delM" class="easyui-linkbutton" iconCls="icon-film_delete" plain="true">移除电影</a>
+				<input id="cm_search" class="easyui-searchbox" style="width:200px" data-options="prompt:'请输入搜索内容',menu:'#cm_menu'"></input> 
+				<div id="cm_menu" style="width:120px"> 
+					<div data-options="name:'name'">电影</div> 
+					<div data-options="name:'type'">类型</div>
+				</div>
+			</div>
+	</table>
+	<!-- 新增电影弹框 -->
+	<div id="cm_addMDialog" class="easyui-dialog" title="新增电影" closed="true" style="width:400px;height:500px;" data-options="iconCls:'icon-save',resizable:true,modal:true"></div> 
+	<!-- 查看已排片院线弹框 -->
+	<div id="cm_showCinMDialog" class="easyui-dialog" title="院线一览" closed="true" style="width:500px;height:400px;" data-options="iconCls:'icon-save',resizable:true,modal:true"></div> 
+	<!-- 增加院线弹框  -->
+	<div id="cm_addCinDialog" class="easyui-dialog" title="增加院线" closed="true" style="width:500px;height:400px;" data-options="iconCls:'icon-save',resizable:true,modal:true"></div>  
+	<!-- 查看已排片放映厅 -->
+	<div id="cm_showHallDialog" class="easyui-dialog" title="放映一览" closed="true" style="width:500px;height:400px;" data-options="iconCls:'icon-save',resizable:true,modal:true"></div>  
+	<!-- 增加放映厅 -->
+	<div id="cm_addHallDialog" class="easyui-dialog" title="增加放映厅" closed="true" style="width:500px;height:400px;" data-options="iconCls:'icon-save',resizable:true,modal:true"></div>  
+	<!-- 增加排片 -->
+	<div id="cm_addShowDialog" class="easyui-dialog" title="增加放映" closed="true" style="width:400px;height:300px;" data-options="iconCls:'icon-save',resizable:true,modal:true"></div>
+	<!-- 查看选座   -->
+	<div id="cm_showSeatDialog" class="easyui-dialog" title="查看选座" closed="true" style="width:400px;height:450px;" data-options="iconCls:'icon-save',resizable:true,modal:true"></div>  
+</body>
+</html>

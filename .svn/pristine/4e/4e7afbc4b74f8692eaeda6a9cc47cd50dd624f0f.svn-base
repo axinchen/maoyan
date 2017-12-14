@@ -1,0 +1,96 @@
+import { show } from './information.js';
+export default function() {
+    // 点击bar的增加按钮，弹出增加框
+    $("#information_add_btn").click(function() {
+        $("#information_add").window("open").window('refresh');
+    });
+    // 用于保存数据的数组
+    let picObjArr = [];
+    let disArr = [];
+    // 增加弹框的操作
+    $("#information_add").dialog({
+        method: 'get',
+        href: '/manage/information/add.html',
+        onLoad: function() {
+            $("#info_picture").linkbutton();
+            $("#info_discuss").linkbutton();
+            // 点击新增图文
+            let dataId = 0;
+            $("#info_picture").on("click", function() {
+                if ($("#info_picture-box .imgPar input[data-type=uploadImg]").length) {
+                    dataId = $("#info_picture-box .imgPar input[data-type=uploadImg]").length;
+                }
+                let imgStr = `<div style="display:flex;">
+                        <div class="imgPar" data-id="${dataId}" style="margin-bottom: 20px">
+                            <div data-options="region:'east',border:false" style="width:100px;margin: auto">
+                                <div style="width:100px;height:100px;">
+                                    <img class="headImg" id="headImg" data-id="${dataId}" style="width:100%;height:100%;" >
+                                <input data-type="uploadImg" data-id="${dataId}" name="file" class="easyui-filebox" style="width:100px">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom:20px "><textarea class="info_text_add" style="width:180px;height:130px;"></textarea></div></div>`;
+                $("#info_picture").before(imgStr);
+                $("#info_picture-box input[data-type=uploadImg]").filebox({
+                    buttonText: "选择图片",
+                    buttonAlign: "center",
+                    onChange: function() {
+                        let $obj = $(this);
+                        let uploadImgId = $obj[0].dataset.id;
+                        console.log(dataId);
+                        if (!$("#info_picture-box input[type=file]").eq(uploadImgId).val()) { return; }
+                        $.ajaxFileUpload({
+                            url: "/upload",
+                            fileElementId: $obj.parents().find("#info_picture-box input[type=file]").eq(uploadImgId).attr("id"),
+                            dataType: "string",
+                            success: function(data) {
+                                console.log("3333",$("#info_picture-box .info_text_add").eq(uploadImgId));
+                                let picObj = {};
+                                picObj.text = $("#info_picture-box .info_text_add").eq(uploadImgId).val(); //文段
+                                picObj.pics = data; //路径
+                                picObjArr.push(picObj); //文段路径一起的集合
+                                $("#info_picture-box .headImg").eq(uploadImgId).attr("src", "/" + data);
+                            }
+                        });
+                        $obj.filebox("clear");
+                    }
+                });
+
+            });
+            // 点击新增评论
+            $("#info_discuss").on("click", function() {
+                let disStr = '<textarea class="info_discuss_add" style="width:180px;height:130px;margin:10px 0"></textarea>';
+                $("#info_discuss").before(disStr);
+            });
+        },
+        buttons: [{
+            text: '保存添加',
+            handler: function() {
+                $("#info_discuss-box .info_discuss_add").each(function(){
+                    disArr.push(this.value);
+                });
+
+                $("#information_add").form("submit", {
+                    url: '/information/add',
+                    queryParams: {
+                        picObjArr:JSON.stringify(picObjArr),
+                        disArr:JSON.stringify(disArr),
+                    },
+                    success: function() {
+                        $("#information_add").window("close");
+                        show();
+                        // 清空容器
+                        picObjArr=[];
+                        disArr=[];
+
+                    }
+                });
+            }
+        }, {
+            text: '取消',
+            handler: function() {
+                $("#information_add").window("close").window('refresh');
+            }
+        }],
+    });
+}

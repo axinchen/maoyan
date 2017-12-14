@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../themes/icon.css">
+    <script type="text/javascript" src="../../js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/movie.js"></script>
+</head>
+<body>
+<form action="" method="get">
+    <table id="movie_dg" rownumbers="true" style="height: 600px">
+        <div id="movie_tb">
+            <a id="movie_add" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">新增电影</a>
+            <a id="movie_del" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">移除电影</a>
+            <a id="movie_update" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">编辑</a>
+            <a id="movie_save" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">保存</a>
+            <input id="movie_ss" class="easyui-searchbox" style="width:300px"
+                   data-options="prompt:'请输入相关字符',menu:'#movie_mm'"> </input>
+            <div id="movie_mm" style="width:120px">
+                <div data-options="name:'name'">电影名</div>
+                <div data-options="name:'type'">电影类型</div>
+                <div data-options="name:'year'">年代</div>
+            </div>
+            <a id="movie_E" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">刷新</a>
+            <div id="movie_dd" class="easyui-dialog" title="增加电影" style="width:500px;height:350px;text-align: center"
+                 data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true,buttons:'#bb'">
+                <div style="margin-bottom:20px "><input id="movie_name" class="easyui-textbox" data-options="label:'电影名:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px;"></div>
+                <div style="margin-bottom:20px "><input id="movie_englishName" class="easyui-textbox" data-options="label:'英文电影名:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_type" class="easyui-textbox" data-options="label:'类型:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_point" class="easyui-textbox" data-options="label:'电影评分:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_performer" class="easyui-textbox" data-options="label:'演员:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_want" class="easyui-textbox" data-options="label:'想看:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_area" class="easyui-textbox" data-options="label:'区域:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_year" class="easyui-textbox" data-options="label:'年代:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_time" class="easyui-textbox" data-options="label:'时长:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_releaseTime" class="easyui-textbox" data-options="label:'上映时间:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_boxOffice" class="easyui-textbox" data-options="label:'票房:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_synopsis" class="easyui-textbox" data-options="label:'简介:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+            </div>
+            <input type="hidden" id="hidden"/>
+            <div id="movie_ww" class="easyui-dialog" title="修改" style="width:500px;height:350px;text-align: center"
+                 data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true">
+                <div style="margin-bottom:20px "><input id="movie_name2" class="easyui-textbox" data-options="label:'电影名:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px;"></div>
+                <div style="margin-bottom:20px "><input id="movie_englishName2" class="easyui-textbox" data-options="label:'英文电影名:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_type2" class="easyui-textbox" data-options="label:'类型:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_point2" class="easyui-textbox" data-options="label:'电影评分:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_performer2" class="easyui-textbox" data-options="label:'演员:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_want2" class="easyui-textbox" data-options="label:'想看:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_area2" class="easyui-textbox" data-options="label:'区域:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_year2" class="easyui-textbox" data-options="label:'年代:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_time2" class="easyui-textbox" data-options="label:'时长:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_releaseTime2" class="easyui-textbox" data-options="label:'上映时间:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_boxOffice2" class="easyui-textbox" data-options="label:'票房:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+                <div style="margin-bottom:20px "><input id="movie_synopsis2" class="easyui-textbox" data-options="label:'简介:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>
+            </div>
+
+        </div>
+    </table>
+</form>
+</body>
+</html>

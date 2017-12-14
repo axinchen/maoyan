@@ -1,0 +1,62 @@
+export default function(movieID,cinemaID){
+	let show=function(type,value){
+        $('#cm_showHallTb').datagrid("reload");
+    }
+	$('#cm_showHallDialog').dialog({
+		href: '/manage/cinemaMatching/cm_showHall.html',
+		buttons:[{
+    		text:'关闭',
+    		handler:function(){
+    			$("#cm_showHallDialog").window("close");
+    		}
+    	}],
+    	onLoad:function(){
+    		$("#cm_showHallTb").datagrid({
+    			fit:true,	
+				checkOnSelect:true,
+				fitColumns:true,
+				singleSelect:false,
+				pagination: true,     //开启分页  
+			    pageSize: 10,         //分页大小  
+			    pageNumber:1,         //第几页显示（默认第一页，可以省略）  
+			    pageList: [5, 10, 15], //设置每页记录条数的列表   
+			    url: `/cinemaMatching/showHall?movieID=${movieID}&cinemaID=${cinemaID}`,  //获取数据地址 
+			    method:"get",
+				columns:[
+					[
+						{field:'cm_checkbox',checkbox:true},
+						{field:'hallName',width:"32%",align:'center',title:'放映厅'},
+						{field:'startTime',width:"32%",align:'center',title:'放映时间'},
+						{field:'price',width:"32%",align:'center',title:'价格'}
+					]
+				],
+				onLoadSuccess:function(){
+                    // $('.cm_addShow-btn').linkbutton();
+                    // $('.cm_addShow-btn').on("click",function(){
+                    // 	let hallID=this.dataset.id;
+                    // 	cm_addShow(movieID,cinemaID,hallID);
+                    // 	$('#cm_addShowDialog').window('open');
+                    // });
+                }
+    		});
+    		$("#cm_delOccupy").on("click",function(){
+    			let checked=$('#cm_showHallTb').datagrid('getChecked');
+    			let ids=[];
+    			for(let obj of checked){
+    				ids.push(obj._id);
+    			}
+    			$.ajax({
+    				type:"post",
+    				url:"/cinemaMatching/delHall",
+    				data:{
+    					ids:JSON.stringify(ids)
+    				},
+    				success:function(data){
+    					show();
+    				}
+    			});
+    		})
+    	}
+	});
+
+}

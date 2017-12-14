@@ -1,0 +1,197 @@
+export default function(){
+    $('#movie_dg').datagrid({
+        pagination: true,
+        pageNumber: 1,
+        pageSize: 3,
+        pageList: [3, 5, 8],
+        url: '/movie/show',
+        method: "get",
+
+        //url:'datagrid_data.json',
+        columns: [[
+            {field:'number',title:' ',checkbox:true,width:80},
+            {field: 'name', title: '电影名', width: 100},
+            {field: 'englishName', title: '英文电影名', width: 200},
+            {field: 'type', title: '类型', width: 100},
+            {field: 'point', title: '电影评分', width: 80},
+            {field: 'performer', title: '演员', width: 200},
+            {field: 'want', title: '想看', width: 80},
+            {field: 'area', title: '区域', width: 100},
+            {field: 'year', title: '年代', width: 100},
+            {field: 'time', title: '时长', width: 50},
+            {field: 'releaseTime', title: '上映时间', width: 150},
+            {field: 'boxOffice', title: '票房', width: 150},
+            {field: 'synopsis', title: '简介', width: 150},
+
+        ]],
+        toolbar: '#movie_tb',
+    });
+    let show = function (type, value) {
+        $("#movie_dg").datagrid("reload", {type: type, value: value});
+    }
+    //增加
+    $("#movie_add").click(function(){
+         $("#movie_dd").window("open");
+    })
+    $("#movie_dd").dialog({
+        //href: "/manage/easyStudent/add.html",
+        buttons: [{
+            text: "保存",
+            handler: function () {
+                let name = $("#movie_name").val();
+                let englishName=$("#movie_englishName").val();
+                let type=$("#movie_type").val();
+                let point =$("#movie_point").val();
+                let performer =$("#movie_performer").val();
+                let want =$("#movie_want").val();
+                let area =$("#movie_area").val();
+                let year =$("#movie_year").val();
+                let time =$("#movie_time").val();
+                let releaseTime =$("#movie_releaseTime").val();
+                let boxOffice =$("#movie_boxOffice").val();
+                let synopsis =$("#movie_synopsis").val();
+                $.ajax({
+                    url: "/movie/add",
+                    type: "get",
+                    data: {
+                        name,englishName,type,point,performer,want,area,year,time,releaseTime,boxOffice,synopsis
+                    },
+                    success: function () {
+                        show();
+                        $("#movie_dd").window("close");
+                    }
+                })
+            }
+        }, {
+            text: "关闭",
+            handler: function () {
+                $("#movie_dd").window("close");
+            }
+        }]
+    });
+
+    //删除
+    $("#movie_del").click(function(){
+        let arr=[];
+        let checked= $("#movie_dg").datagrid('getChecked')
+           console.log(checked)
+        for(let i = 0;i<checked.length;i++){
+            arr.push(checked[i]._id)
+        }
+        //$(checked).each(function(){
+        //   arr.push(this._id);
+        //})
+        console.log(arr);
+        if(arr.length==0){
+            $.messager.alert('警告','请选择你要删除的内容');
+        }
+        else{
+                $.messager.confirm('确认', '您确认想要删除吗？', function (r) {
+                    if (r) {
+                        for(let item of arr){
+                            $.ajax({
+                                url: "/movie/del",
+                                type: "get",
+                                data: {
+                                    _id: item
+                                },
+                                success: function () {
+                                    show();
+                                }
+                            })
+                        }
+
+                    }
+                });
+            }
+    })
+
+    //修改
+    $("#movie_update").click(function(){
+
+        let arr=[];
+        let checked= $("#movie_dg").datagrid('getChecked')
+        for(let i = 0;i<checked.length;i++){
+            arr.push(checked[i]._id)
+        }
+        if(!arr.length){
+            $.messager.alert('警告','请选择你要修改的内容');
+        }
+        else if(arr.length>1){
+            $.messager.alert('警告','只能修改一条内容');
+        }else{
+            $("#movie_ww").window("open");
+            $.ajax({
+                type: "get",
+                url: "/movie/updateShow",
+                data: {
+                    _id: arr[0]
+                },
+                success: function (date) {
+                    //console.log(_id);
+                    $("#movie_name2").textbox("setValue", date.name)
+                    $("#movie_englishName2").textbox("setValue", date.englishName)
+                    $("#movie_type2").textbox("setValue", date.type)
+                    $("#movie_point2").textbox("setValue", date.point)
+                    $("#movie_performer2").textbox("setValue", date.performer)
+                    $("#movie_want2").textbox("setValue", date.want)
+                    $("#movie_area2").textbox("setValue", date.area)
+                    $("#movie_year2").textbox("setValue", date.year)
+                    $("#movie_time2").textbox("setValue", date.time)
+                    $("#movie_releaseTime2").textbox("setValue", date.releaseTime)
+                    $("#movie_boxOffice2").textbox("setValue", date.boxOffice)
+                    $("#movie_synopsis2").textbox("setValue", date.synopsis)
+                    $("#hidden").val(date._id)
+                }
+            })
+        }
+
+    })
+    $("#movie_ww").dialog({
+        //href: "/manage/easyStudent/add.html",
+        buttons: [{
+            text: "保存",
+            handler: function () {
+                let name = $("#movie_name2").val();
+                let englishName=$("#movie_englishName2").val();
+                let type=$("#movie_type2").val();
+                let point =$("#movie_point2").val();
+                let performer =$("#movie_performer2").val();
+                let want =$("#movie_want2").val();
+                let area =$("#movie_area2").val();
+                let year =$("#movie_year2").val();
+                let time =$("#movie_time2").val();
+                let releaseTime =$("#movie_releaseTime2").val();
+                let boxOffice =$("#movie_boxOffice2").val();
+                let synopsis =$("#movie_synopsis2").val();
+                let _id = $("#hidden").val();
+                $.ajax({
+                    url: "/movie/update",
+                    type: "get",
+                    data: {
+                        _id,name,englishName,type,point,performer,want,area,year,time,releaseTime,boxOffice,synopsis
+                    },
+                    success: function () {
+                        show();
+                        $("#movie_ww").window("close");
+                    }
+                })
+            }
+        }, {
+            text: "关闭",
+            handler: function () {
+                $("#movie_ww").window("close");
+            }
+        }]
+    });
+    $("#movie_ss").searchbox({
+        searcher: function (value, name) {
+            show(name, value);
+        }
+    })
+    $("#movie_E").click(function(){
+        show();
+    })
+
+};
+

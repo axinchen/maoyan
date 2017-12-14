@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>热映电影</title>
+</head>
+
+<body>
+    <!-- //数据表格 -->
+    <table class="easyui-datagrid"  id="hs_tb" style="width:100%;height: 100%;" data-options="rownumbers:true,fitColumns:true,cls:'tb'">
+    </table>
+    <!-- table头部条 -->
+    <div id="hs_bar">
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-film_add',plain:true" id='hs_add-btn'>新增热映电影</button>
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-film_delete',plain:true" id='hs_del-btn'>移除热映电影</button>
+        <!-- /搜索框？ -->
+        <input id="hs_search" type="search" class="easyui-searchbox" style="width:300px" data-options="menu:'#hs_mm',prompt:'请输入您要搜索的信息'" />
+    </div>
+    <!-- 搜索下拉框 -->
+    <div id="hs_mm">
+        <div data-options="name:'name'">电影名</div>
+        <div data-options="name:'type'">类型</div>
+        <div data-options="name:'area'">区域</div>
+    </div>
+    <!-- 增加的窗口 -->
+    <form method="post" id="hs_add" closed="true" class="easyui-dialog" title="新增热映电影" style="width:900px;height: 400px" data-options="iconCls:'icon-television_add',modal:true">
+      <!-- //数据表格 -->
+    <table class="easyui-datagrid" id="hs_add_tb" data-options="rownumbers:true,fitColumns:true,cls:'tb'" style="width: 100%;height: 100%">
+    </table>
+    </form>
+    <!-- 增加table头部条 -->
+    <div id="hs_add_bar">
+        <!-- /搜索框？ -->
+        <input id="hs_add_search" type="search" class="easyui-searchbox" style="width:300px" data-options="menu:'#hs_add_mm',prompt:'请输入您要搜索的信息'" />
+    </div>
+    <!-- 增加的搜索下拉框 -->
+    <div id="hs_add_mm">
+        <div data-options="name:'name'">电影名</div>
+        <div data-options="name:'type'">类型</div>
+        <div data-options="name:'area'">区域</div>
+    </div>
+</body>
+
+</html>

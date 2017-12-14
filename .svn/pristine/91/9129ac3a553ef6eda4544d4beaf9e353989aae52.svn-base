@@ -1,0 +1,98 @@
+import {user} from "./user/user.js";
+import information from "./information/js/information.js";
+import movie from "./movie/movie.js";
+import { cinema } from "./cinema/cinema.js";
+import { cinemaMatching } from "./cinemaMatching/cinemaMatching.js";
+import {hotShowing} from "./hotShowing/hotShowing.js";
+import {upcoming} from "./upcoming/upcoming.js";
+import {hotBroadcast} from "./hotBroadcast/hotBroadcast.js";
+import i_alter from "./i_alter.js";
+$('#i_list').tree({
+    data: [{
+        text: '用户管理',
+        iconCls: 'icon-user',
+        attributes: {
+            type: "user",
+        }
+    }, {
+        text: '资讯管理',
+        iconCls: 'icon-page',
+        attributes: {
+            type: "information",
+        }
+    }, {
+        text: '电影管理',
+        iconCls: 'icon-film',
+        attributes: {
+            type: "movie",
+        }
+    }, {
+        text: '院线管理',
+        iconCls: 'icon-television',
+        attributes: {
+            type: "cinema",
+        }
+    }, {
+        text: '电影院线匹配管理',
+        iconCls: 'icon-database',
+        attributes: {
+            type: "cinemaMatching",
+        }
+    }, {
+        text: '热映电影管理',
+        iconCls: 'icon-tag_blue',
+        attributes: {
+            type: "hotShowing",
+        }
+    }, {
+        text: '即将上映管理',
+        iconCls: 'icon-tag_orange',
+        attributes: {
+            type: "upcoming",
+        }
+    }, {
+        text: '热播影视管理',
+        iconCls: 'icon-tag_pink',
+        attributes: {
+            type: "hotBroadcast",
+        }
+    }],
+    onClick: function(node) {
+        let $tab = $("#i_tab");
+        let type = node.attributes.type;
+        let value = node.text;
+        if (!$tab.tabs("exists", value)) {
+            $tab.tabs("add", {
+                title: value,
+                closable: true,
+                href: `/manage/${type}/${type}.html`,
+                onLoad: function() {
+                    eval(type + "()");
+                }
+            });
+        } else {
+            $tab.tabs("select", value);
+        }
+    }
+});
+i_alter();
+$("#exit").on("click", function() {
+    $.ajax({
+        type: "get",
+        url: "/manager/delSession",
+        success: function() {
+            window.location = "login.html";
+        }
+    });
+});
+$.ajax({
+    type: "get",
+    url: "/manager/getSession",
+    success: function(data) {
+        if (data.name) {
+            $("#i_managerID").html("欢迎您，" + data.name);
+        } else {
+            window.location = "login.html";
+        }
+    }
+});

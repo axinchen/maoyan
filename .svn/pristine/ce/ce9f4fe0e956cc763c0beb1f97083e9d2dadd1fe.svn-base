@@ -1,0 +1,85 @@
+export default function(movieID){
+    let objArr=[];
+    let addCinTb=function(cinArr){
+        $('#cm_addCinTb').datagrid({
+            fit:true,
+            checkOnSelect:true,
+            fitColumns:true,
+            singleSelect:false,
+            pagination: true,     //开启分页  
+            pageSize: 10,         //分页大小  
+            pageNumber:1,         //第几页显示（默认第一页，可以省略）  
+            pageList: [5, 10, 15], //设置每页记录条数的列表   
+            url: '/cinemaMatching/showCin',  //获取数据地址 
+            queryParams:{
+                cinArr
+            },
+            columns:[
+                [
+                    {field:'check',checkbox:true},
+                    {field:'name',width:"24%",align:'center',title:'院线名'},
+                    {field:'address',width:"24%",align:'center',title:'地址'},
+                    {field:'tel',width:"24%",align:'center',title:'电话'},
+                    {field:'website',width:"24%",align:'center',title:'官网'},
+                ]
+            ],
+            onCheck:function(index, row){
+                objArr.push(row);
+            }
+        }); 
+    }
+	$('#cm_addCinDialog').dialog({ 
+    	href: '/manage/cinemaMatching/cm_addCin.html', 
+    	buttons:[{
+    		text:'添加',
+    		handler:function(){
+                let data=[];
+                for(let obj of objArr){
+                    data.push({
+                        movieID,
+                        cinemaID:obj._id,
+                        cinemaName:obj.name
+                    }); 
+                }
+    			$.ajax({
+                    type:"post",
+                    url:"/cinemaMatching/addCin",
+                    data:{
+                        data:JSON.stringify(data)
+                    },
+                    success:function(data){
+                        if(data=="ok"){
+                            $("#cm_addCinDialog").window("close");
+                        }
+                    }
+                });
+    		}
+    	},{
+    		text:'关闭',
+    		handler:function(){
+    			$("#cm_addCinDialog").window("close");
+    		}
+    	}],
+        onLoad:function(){
+            $.ajax({
+                type:"get",
+                url:"/cinemaMatching/getScheduleCin",
+                data:{
+                    movieID
+                },
+                async:false,
+                success:function(data){
+                    if(data){
+                        let cinArr=[];
+                        for(let obj of data){
+                            cinArr.push(obj.cinemaID);
+                        }
+                        let s=new Set(cinArr);
+                        addCinTb(JSON.stringify([...s]));
+                    }
+                }
+            });
+        }
+	});
+
+}

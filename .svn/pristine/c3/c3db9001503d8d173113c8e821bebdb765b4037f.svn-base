@@ -1,0 +1,6 @@
+export default function(movieID,cinemaID){
+	$('#cm_addHallDialog').dialog({
+		href: '/manage/cinemaMatching/cm_showHall.html',
+		
+	});
+}

@@ -1,0 +1,16 @@
+<div style="width:300px;margin: auto;text-align: center;">
+    <div style="margin-top: 15px;">
+        <label style="width: 80px;display: inline-block;">资讯标题</label>
+        <input name='title' type="text" id='information_updateTitle' class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'" />
+    </div>
+    <div style="margin-top: 15px;">
+        <label style="width: 80px;display: inline-block;">发稿时间</label>
+        <input name='time' type="text" id='information_updateTime' class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'"/>
+    </div>
+    <div style="margin-top: 15px;" id='info_picture-updatebox'>
+        <input type='button' id="info_updatepicture" class="easyui-linkbutton" data-options="iconCls:'icon-search'"  style="display: block;margin: auto;width: 80px" value="修改图文">
+    </div>
+    <div style="margin: 15px 0;"  id='info_discuss-updatebox'>
+       <input type='button' id="info_updatediscuss" class="easyui-linkbutton" data-options="iconCls:'icon-search'"  style="display: block;margin: auto;width: 80px" value="修改评论">
+    </div>
+</div>

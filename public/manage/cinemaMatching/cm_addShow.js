@@ -1,0 +1,190 @@
+export default function(movieID,cinemaID,hallID){
+	let getHallInfo=function(hallID){
+		let arr=[];
+		$.ajax({
+			type:"get",
+			url:"/cinemaMatching/getHallInfo",
+			data:{
+				hallID
+			},
+			async:false,
+			success:function(data){
+				arr.push(data.seat);
+				arr.push(data.name);
+			}
+		});
+		return arr;
+	}
+	let findM=function(){
+		let interval;
+		$.ajax({
+			type:"get",
+			url:"/cinemaMatching/findM",
+			data:{
+				movieID
+			},
+			async:false,
+			success:function(data){
+				interval=data.time;
+			}
+		});
+		return interval;
+	}
+	//转换也被占用时间
+	let turnTime=function(obj,times){
+		let timeArr=obj.startTime.split(":");
+		let duration=Math.ceil(obj.interval/10);
+		let n=0,hour=parseInt(timeArr[0]),minute=parseInt(timeArr[1]/10);
+		for(let i=hour;n<duration;i++){
+			for(let j=minute;j<6;j++){
+				times[i][j]=0;
+				n++;
+			}
+			minute=0;
+		}
+		return times;
+	}
+	//验证时段是否被占用
+	let validTime=function(startTimeArr,duration,date){
+		let times=[];
+		for(let i =0;i<24;i++){
+			times[i]=[];
+			for(let j=0;j<6;j++){
+				times[i][j]=1;
+			}
+		}
+		//获取该放映厅已排片的所有数据
+		$.ajax({
+			type:"post",
+			url:"/cinemaMatching/getOccupyTiem",
+			data:{
+				movieID,cinemaID,hallID,date
+			},
+			async:false,
+			success:function(data){
+				if(data.length){
+					for(let obj of data){
+						times=turnTime(obj,times);
+					}
+				}else{
+					return;
+				}
+			}
+		});
+		//验证时段是否被占用
+		let dura=Math.ceil(duration/10);
+		let count=0,sHour=parseInt(startTimeArr[0]),sMinute=parseInt(startTimeArr[1]/10);
+		for(let i=sHour;count<dura;i++){
+			for(let j=sMinute;j<6;j++){
+				if(!times[i][j]){
+					return false;
+				}
+				count++;
+			}
+			sMinute=0;
+		}
+		return true;
+	}
+	$.extend($.fn.validatebox.defaults.rules,{
+		date : {// 验证日期
+			validator : function(value) {
+				let flag=false;
+				$.ajax({
+					type:"get",
+					url:"/cinemaMatching/findM",
+					data:{
+						movieID
+					},
+					async:false,
+					success:function(data){
+						let releaseArr=data.releaseTime.split("-");
+						let timeArr=value.split("-");
+						if(releaseArr[0]>timeArr[0]){
+							flag=false;
+						}else if(releaseArr[0]==timeArr[0]){
+							if(releaseArr[1]>timeArr[1]){
+								flag=false;
+							}else if(releaseArr[1]==timeArr[1]){
+								if(releaseArr[2]>timeArr[2]){
+									flag=false;
+								}else{
+									flag=true;
+								}
+							}else{
+								flag=true;
+							}
+						}else{
+							flag=true;
+						}
+					}
+				});
+				return flag;
+			},
+			message : '该电影尚未上映'
+		},
+		time : {// 验证时间
+			validator : function(value) {
+				let flag=false;
+				//将输入的时间拆分为数组
+				let startTimeArr = value.split(":");
+				//获取选中日期
+				let date=$("#cm_date").val();
+				flag=validTime(startTimeArr,findM(),date);
+				return flag;
+			},
+			message : '当前时段已被占用'
+		},
+		format:{//验证时间格式，确保传入的值正确
+			validator : function(value){
+				return /^\d{2}:\d{2}$/.test(value) && $("#cm_date").val();
+			},
+			message : '格式输入不正确'
+		}
+	});
+	//初始化增加排片对话框
+	$('#cm_addShowDialog').dialog({
+		href: '/manage/cinemaMatching/cm_addShow.html',
+		buttons:[{
+			text:'返回选择其他放映厅',
+			handler:function(){
+				$("#cm_addHallDialog").window("open");
+    			$("#cm_addShowDialog").window("close");
+    		}
+		},{
+    		text:'关闭',
+    		handler:function(){
+    			$("#cm_addShowDialog").window("close");
+    		}
+    	}],
+    	onLoad:function(){
+    		//初始化增加排片表单
+    		$('#cm_addHallFm').form({
+				onSubmit:function(){
+					return $(this).form('validate');
+				},
+				//需提交的额外数据
+				queryParams: {
+					movieID,cinemaID,hallID,
+					interval:findM(),
+					seat:JSON.stringify(getHallInfo(hallID)[0]),
+					hallName:getHallInfo(hallID)[1]
+				},
+				success:function(data){
+					if(data=="ok"){
+						//清空表单
+						$("#cm_addHallFm").form("clear");
+						$.messager.alert('提示','新增成功');
+					}
+				}
+			});
+			//禁用当天之前的日期
+			$('#cm_date').datebox('calendar').calendar({
+				validator: function(date){
+					var now = new Date();
+					var d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+					return d1<=date;
+				}
+			});
+    	}
+	});
+}

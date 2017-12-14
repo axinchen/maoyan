@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+<!--     <link rel="stylesheet" type="text/css" href="../../themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../themes/icon.css">
+    <script type="text/javascript" src="../../js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/movie.js"></script> -->
+</head>
+<body>
+<form action="" method="get">
+    <table id="movie_dg" rownumbers="true" style="width: 100%;height:500px;">
+        <div id="movie_tb">
+            <a id="movie_add" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-film_add',plain:true">新增电影</a>
+            <a id="movie_del" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-film_delete',plain:true">移除电影</a>
+            <a id="movie_update" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-film_edit',plain:true">编辑</a>
+            <input id="movie_ss" class="easyui-searchbox" style="width:300px"
+                   data-options="prompt:'请输入相关字符',menu:'#movie_mm'"> </input>
+            <div id="movie_mm" style="width:120px">
+                <div data-options="name:'name'">电影名</div>
+                <div data-options="name:'type'">电影类型</div>
+                <div data-options="name:'year'">年代</div>
+            </div>
+        </div>
+    </table>
+    <div id="movie_dd" class="easyui-dialog" title="增加电影" style="width:400px;height:500px;text-align: center;padding: 20px 0;" data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true,buttons:'#bb'">
+                <div style="margin-bottom:20px ">
+                    <input id="movie_name" class="easyui-textbox" data-options="label:'电影名:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px;">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_englishName" class="easyui-textbox" data-options="label:'英文电影名:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_type" class="easyui-textbox" data-options="label:'类型:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_point" class="easyui-numberbox" data-options="max:10,precision:1,label:'电影评分:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <!--<div style="margin-bottom:20px "><input id="movie_performer" class="easyui-textbox" data-options="label:'演员:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空',"style="width:210px"></div>-->
+                <div style="margin-bottom:20px ">
+                    <input id="movie_want" class="easyui-textbox" data-options="label:'想看:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_area" class="easyui-textbox" data-options="label:'区域:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_year" class="easyui-textbox" data-options="label:'年代:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_time" class="easyui-numberbox" data-options="label:'时长:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_releaseTime" class="easyui-datebox" data-options="formatter:myformatter,parser:myparser,editable:false,label:'上映时间:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_boxOffice" class="easyui-numberbox" data-options="label:'票房:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_synopsis" class="easyui-textbox" data-options="label:'简介:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <!--导演照片-->
+                <div id="cyw" data-options="region:'east',border:false" style="width:250px;margin: auto ;margin-bottom: 20px">
+                    <div style="margin-bottom:20px ">
+                        <input id="movie_director" class="easyui-textbox" data-options="label:'导演:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                    </div>
+
+                    <div style="border:1px solid blue;width:90px;height:120px;margin: auto">
+                        <img id="directorImg" style="width:100%;height:100%;" >
+                    </div>
+                    <input id="dirImg" name="file" class="easyui-filebox director" buttonText="选择图片" style="width:80px" >
+                </div>
+                <!--主题照片-->
+                <div id="wyc" data-options="region:'east',border:false" style="width:150px;margin: auto ;margin-bottom: 20px">
+                    <p>主题照片</p>
+                    <div style="border:1px solid blue;width:90px;height:120px;margin: auto">
+                        <img id="headImg" style="width:100%;height:100%;" >
+                    </div>
+                    <input id="uploadImg" name="file" class="easyui-filebox" buttonText="选择图片" style="width:80px" >
+                </div>
+                <div id="movie_yy"></div>
+                <input type="button" id="ImgBtn" value="点击添加演员" style="margin-bottom: 20px"/>
+                <div id="movie_img"></div>
+                <input class='easyui-linkbutton' type="button" id="addImg" value="点击添加图集"/>
+            </div>
+            <input type="hidden" id="hidden"/>
+            <div id="movie_ww" class="easyui-dialog" title="修改" style="width:500px;height:350px;text-align: center" data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true">
+                <div style="margin-bottom:20px ">
+                    <input id="movie_name2" class="easyui-textbox" data-options="label:'电影名:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px;">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_englishName2" class="easyui-textbox" data-options="label:'英文电影名:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_type2" class="easyui-textbox" data-options="label:'类型:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_point2" class="easyui-numberbox" data-options="max:10,precision:1,label:'电影评分:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <!-- <div style="margin-bottom:20px ">
+                    <input id="movie_performer2" class="easyui-textbox" data-options="label:'演员:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div> -->
+                <div style="margin-bottom:20px ">
+                    <input id="movie_want2" class="easyui-textbox" data-options="label:'想看:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_area2" class="easyui-textbox" data-options="label:'区域:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_year2" class="easyui-textbox" data-options="label:'年代:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_time2" class="easyui-numberbox" data-options="label:'时长:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_releaseTime2" class="easyui-datebox" data-options="formatter:myformatter,parser:myparser,editable:false,label:'上映时间:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_boxOffice2" class="easyui-numberbox" data-options="label:'票房:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+                <div style="margin-bottom:20px ">
+                    <input id="movie_synopsis2" class="easyui-textbox" data-options="label:'简介:',labelWidth:'80',labelAlign:'right',required:true,missingMessage:'不能为空'," style="width:210px">
+                </div>
+            </div>
+            <script type="text/javascript">
+                function myformatter(date){
+                    var y = date.getFullYear();
+                    var m = date.getMonth()+1;
+                    var d = date.getDate();
+                    return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+                }
+                function myparser(s){
+                    if (!s) return new Date();
+                    var ss = (s.split('-'));
+                    var y = parseInt(ss[0],10);
+                    var m = parseInt(ss[1],10);
+                    var d = parseInt(ss[2],10);
+                    if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
+                        return new Date(y,m-1,d);
+                    } else {
+                        return new Date();
+                    }
+                }
+            </script>
+</form>
+</body>
+</html>

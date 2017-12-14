@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+    <meta charset="utf-8"/>
+    <head>
+        <title>咨询管理</title>
+        <link rel="stylesheet" href="../../themes/icon.css"/>
+        <link rel="stylesheet" href="../../themes/default/easyui.css"/>
+    </head>
+
+
+    <body>
+
+    <table class="easyui-datagrid" id="tb" style="width:100%;" data-options="fitColumns:true,rownumbers:true,cls:'cin_tb'">
+            </table>
+            <!-- <div class="easyui-pagination" id="pp"></div> -->
+            <!-- table头部条 -->
+            <div id="bar">
+                <button class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true"  id="bar1">新增咨询</button>|
+                <button class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true"  id="bar2">移出咨询</button>|
+                <button class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true"  id="bar3">编辑</button>|
+
+                <input id="search" type="search" class="easyui-searchbox" style="width:300px" data-options="menu:'#mm',prompt:'请输入您要搜索的信息'" />
+            </div>
+            <!-- 搜索下拉框 -->
+            <div id="mm">
+                <div data-options="name:'headline'">标题</div>
+                <div data-options="name:'writing_time'">发稿时间</div>
+                <div data-options="name:'Segment'">文段</div>
+                <div data-options="name:'illustration'">配图</div>
+                <div data-options="name:'comment'">评论</div>
+            </div>
+            <!-- 增加的窗口 -->
+            <div id="add" closed="true" class="easyui-dialog" title="增加" style="width:600px;height:400px;text-align: center;"
+                 data-options="iconCls:'icon-save',resizable:true,modal:false">
+
+                <div style="margin-top: 15px;">
+                    <label for="addName">标题</label>
+                    <input id="addName" type="text" class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'" />
+                </div>
+                <div style="margin-top: 15px;margin-bottom: 15px">
+                    <label for="addAge">发稿时间</label>
+                    <input id="addAge" type="text" class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'" />
+                </div>
+
+                    <!-- 新增文图 -->
+                <!--<div id="wentu" style="width:300px;height:200px;border:1px solid #cccccc;margin: auto;overflow: hidden">-->
+                     <!--&lt;!&ndash;img&ndash;&gt;-->
+                     <!--<div data-options="region:'east',border:false" style="width:100px;margin: auto">-->
+                        <!--<div style="border:1px solid blue;width:90px;height:120px;">-->
+                            <!--<img id="headImg" style="width:100%;height:100%;">-->
+                            <!--</div>-->
+                        <!--<input id="uploadImg" name="file" class="easyui-filebox " style="width:90px">-->
+                    <!--</div>-->
+                     <!-- -->
+                    <!--<label>文段：-->
+                        <!--<input type="text" id="discuss"/>-->
+                    <!--</label>-->
+                <!--</div>-->
+                <button id="picture"style="display: block;margin: auto;margin-top: 20px; ">新增评</button>
+                <!-- 新增评论-->
+                <button id="Venturi"style="display: block;margin: auto;margin-top: 20px; ">新增评论</button>
+            </div>
+
+            <!-- 修改的窗口 -->
+            <input type="hidden" id="_changeID"/>
+            <div id="_change" closed="true" class="easyui-dialog" title="修改" style="width:600px;height:400px;text-align: center;margin-top: 15px" data-options="iconCls:'icon-save',resizable:true,modal:true">
+                <div style="margin-top: 15px;">
+                    <label for="addName">标题</label>
+                    <input id="alter_addName" type="text" class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'" />
+                </div>
+                <div style="margin-top: 15px;margin-bottom: 15px">
+                    <label for="addAge">发稿时间</label>
+                    <input id="alter_addAge" type="text" class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'" />
+                </div>
+
+                <!-- 新增文图 -->
+                <div id="alter_wentu" style="width:300px;height:200px;border:1px solid #cccccc;margin: auto;overflow: hidden">
+                    <!--img-->
+                    <div data-options="region:'east',border:false" style="width:100px;margin: auto">
+                        <div style="border:1px solid blue;width:90px;height:120px;">
+                            <img id="alter_headImg" style="width:100%;height:100%;">
+                        </div>
+                        <input id="alter_uploadImg" name="file" class="easyui-filebox " style="width:90px">
+                    </div>
+                    <!-- -->
+                    <label>文段：
+                        <input type="text" id="alter_discuss"/>
+                    </label>
+                </div>
+                <button id="alter_picture"style="display: block;margin: auto;margin-top: 20px; ">新增评</button>
+                <!-- 新增评论-->
+                <div id="alter_comment" style="overflow: hidden;margin-bottom: 15px;margin-top: 15px">
+                    <input type="text" id="alter_connent_id" style="height: 100px;width:200px;border: 1px solid #CCCCCC;margin:auto;"/>
+                </div>
+                <button id="alter_Venturi"style="display: block;margin: auto;margin-top: 20px; ">新增评论</button>
+            </div>
+        </body>
+
+    <script src="../../js/jquery-1.12.4.min.js"></script>
+    <script src="../../js/jquery.easyui.min.js"></script>
+    <script src="../../js/ajaxfileupload.js"></script>
+    <script src="js/information.js"></script>
+</html>

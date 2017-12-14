@@ -1,0 +1,19 @@
+<div style="width:300px;margin: auto;text-align: center;">
+    <input type="hidden" id="cin_updateId" name="_id">
+    <div style="margin-top: 15px;">
+        <label style="width: 80px;display: inline-block;">院线名</label>
+        <input name='name' id='cin_updateName' type="text" class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'"/>
+    </div>
+    <div style="margin-top: 15px;">
+        <label style="width: 80px;display: inline-block;">地址</label>
+        <input name='address' id='cin_updateAddress' type="text" class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'" />
+    </div>
+    <div style="margin-top: 15px;">
+        <label style="width: 80px;display: inline-block;">电话</label>
+        <input name='tel' id='cin_updateTel' type="text" class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'" />
+    </div>
+    <div style="margin: 15px 0;">
+        <label style="width: 80px;display: inline-block;">网址</label>
+        <input name='website' id='cin_updateWeb' type="text" class="easyui-textbox" style="width:200px" data-options="required:true,missingMessage:'必填'" />
+    </div>
+</div>

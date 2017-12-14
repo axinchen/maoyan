@@ -1,0 +1,75 @@
+export default function(){
+	$("#i_alter").on("click",function(){
+		$("#i_alterDialog").window("open");
+	});
+	$('#i_alterDialog').dialog({ 
+    	// href: '/manage/i_alter.html', 
+    	buttons:[{
+    		text:'保存',
+    		handler:function(){
+    			$("i_alterFm").form({
+    				url:"/manager/alter",
+    				onSubmit: function(){
+    					return $(this).form('validate');
+    				},
+    				success:function(data){
+    					if(data=="ok"){
+    						$.messager.alert('确定','修改成功！');
+    						$("#i_alterDialog").window("close");
+    					}
+    				}
+    			});
+    		}
+    	},{
+    		text:'关闭',
+    		handler:function(){
+    			$("#i_alterDialog").window("close");
+    		}
+    	}],
+    	onLoad:function(){
+    		$.extend($.fn.validatebox.defaults.rules,{
+				password : {// 验证密码
+					validator : function(value) {
+						return /^.{6,}$/.test(value);
+						},
+					message : '密码太短，至少6位字符'
+				},
+				same : {//确认密码
+					validator : function(value, param) {
+						if ($("#" + param[0]).val() != "" && value != "") {
+							return $("#" + param[0]).val() == value;
+						} else {
+							return true;
+						}
+					},
+					message : '两次输入的密码不一致!'
+				}
+			})
+    		$.ajax({
+				type:"get",
+				url:"/manager/getSession",
+				success:function(data){
+					$("#i_alterName").textbox("setValue",data.name);
+					$("#i_alterID").textbox("setValue",data._id);
+				}
+			});
+    		$("#i_upLoadImg").filebox({
+				onChange:function(){
+					let $obj=$(this);
+					if(!$obj.filebox("getValue")){
+						return;
+					}
+					$.ajaxFileUpload({
+						url: "/upload",
+						fileElementId: $("#i_alterDialog").find("input[type=file]").attr("id"),
+			            dataType: "string",
+			            success:function(data){
+			            	$("#i_userImg").attr("src","/"+data);
+			            }
+					});
+					$obj.filebox("clear");
+				}
+			});
+    	}
+	});  
+}

@@ -1,0 +1,48 @@
+export default function(movieID,cinemaID,hallID){
+	let getSeat=function(){
+		$.ajax({
+			type:"get",
+			url:"/cinemaMatching/getSeat",
+			data:{
+				hallID
+			},
+			async:false,
+			success:function(data){
+				return data;
+			}
+		});
+	}
+	$('#cm_addShowDialog').dialog({
+		href: '/manage/cinemaMatching/cm_addShow.html',
+		buttons:[{
+    		text:'保存并增加',
+    		handler:function(){
+    			$.ajax({
+    				type:"post",
+    				url:"/cinemaMatching/addShow",
+    				data:{
+    					movieID,cinemaID,hallID,
+    					seat:getSeat(),
+    					time:$("#cm_time").val(),
+    					price:$("#cm_price").val()
+    				},
+    				success:function(data){
+    					if(data=="ok"){
+
+    					}
+    				}
+    			});
+    		}
+    	},{
+    		text:'保存并关闭',
+    		handler:function(){
+    			$("#cm_addShowDialog").window("close");
+    		}
+    	},{
+    		text:'关闭',
+    		handler:function(){
+    			$("#cm_addShowDialog").window("close");
+    		}
+    	}],
+	});
+}

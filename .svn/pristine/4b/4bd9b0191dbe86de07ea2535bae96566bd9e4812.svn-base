@@ -1,0 +1,35 @@
+<form id="cm_addHallFm" action="/cinemaMatching/addSchedule" method="post" style="text-align: center;">
+	<div style="margin: 20px 0;">
+		<input id="cm_date" name="date" class="easyui-datebox" data-options="formatter:myformatter,parser:myparser,editable:false,required:true,validType:'date',missingMessage:'内容不能为空',label:'放映日期：',labelWidth:80,labelAlign:'right'" style="width:300px;height: 30px">  
+	</div> 
+	<div style="margin: 20px 0;">
+		<input id="cm_time" name="startTime" class="easyui-textbox easyui-timespinner" data-options="required:true,validType:['format','time'],missingMessage:'内容不能为空',label:'放映时间：',labelWidth:80,labelAlign:'right'" style="width:300px;height: 30px">  
+	</div>   
+	<div style="margin: 20px 0;">
+		<input id="cm_price" name="price" class="easyui-textbox" data-options="required:true,validType:'price',missingMessage:'内容不能为空',label:'票价：',labelWidth:80,labelAlign:'right'" style="width:300px;height: 30px"> 
+	</div>
+	<button>保存</button>
+</form>
+
+
+
+<script type="text/javascript">
+	function myformatter(date){
+		var y = date.getFullYear();
+		var m = date.getMonth()+1;
+		var d = date.getDate();
+		return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+	}
+	function myparser(s){
+		if (!s) return new Date();
+		var ss = (s.split('-'));
+		var y = parseInt(ss[0],10);
+		var m = parseInt(ss[1],10);
+		var d = parseInt(ss[2],10);
+		if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
+			return new Date(y,m-1,d);
+		} else {
+			return new Date();
+		}
+	}
+</script>
